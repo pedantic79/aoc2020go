@@ -22,6 +22,10 @@ func CheckDayAndPart(day, part uint) bool {
 func GenerateFileName(day uint) string {
 	dir, _ := os.Getwd()
 
+	if day == 0 {
+		return fmt.Sprintf("%v/dayNN.txt", dir)
+	}
+
 	// This handles test cases which run in the directory rather than top-level
 	if strings.HasSuffix(dir, fmt.Sprintf("day%02d", day)) {
 		return fmt.Sprintf("%v/day%d.txt", dir, day)
