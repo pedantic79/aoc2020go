@@ -50,11 +50,11 @@ func RunPart2() util.AoCResult {
 	return util.AoCResult{Day: day, Part: 2, ParseTime: parseTime, RunTime: runTime, Value: ans2}
 }
 
-func parse(input string) []int64 {
-	nums := []int64{}
+func parse(input string) []int {
+	nums := []int{}
 
 	for _, line := range strings.Split(input, "\n") {
-		num, _ := strconv.ParseInt(line, 10, 64)
+		num, _ := strconv.Atoi(line)
 		nums = append(nums, num)
 	}
 
@@ -63,7 +63,7 @@ func parse(input string) []int64 {
 
 const PREAMBLE = 25
 
-func add_contains(set []int64, target int64) bool {
+func add_contains(set []int, target int) bool {
 	for _, x := range set {
 		for _, y := range set {
 			if x+y == target {
@@ -75,7 +75,7 @@ func add_contains(set []int64, target int64) bool {
 	return false
 }
 
-func part1(nums []int64) int64 {
+func part1(nums []int) int {
 	for i := PREAMBLE; i < len(nums); i++ {
 		target := nums[i]
 
@@ -87,11 +87,11 @@ func part1(nums []int64) int64 {
 	return -1
 }
 
-func part2(nums []int64) int64 {
+func part2(nums []int) int {
 	target := part1(nums)
-	prefix := []int64{}
+	prefix := []int{}
 
-	sum := int64(0)
+	sum := int(0)
 	for i := 0; i < len(nums); i++ {
 		sum += nums[i]
 		prefix = append(prefix, sum)
