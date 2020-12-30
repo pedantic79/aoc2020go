@@ -93,25 +93,18 @@ func countNeighbors(floor [][]byte, r int, c int) int {
 }
 
 func countNeighbors2(floor [][]byte, r int, c int) int {
+	h, w := len(floor), len(floor[0])
 	count := 0
 
-	for _, diffs := range [][2]int{{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}} {
-		rNew := r
-		cNew := c
+	for _, delta := range [][2]int{{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}} {
+		a, b := delta[0], delta[1]
 
-		for {
-			rNew += diffs[0]
-			cNew += diffs[1]
+		for y, x := r+a, c+b; y >= 0 && y < h && x >= 0 && x < w; y, x = y+a, x+b {
+			if floor[y][x] == '#' {
+				count++
+			}
 
-			if rNew >= 0 && rNew < len(floor) && cNew >= 0 && cNew < len(floor[0]) {
-				if floor[rNew][cNew] == '#' {
-					count++
-				}
-
-				if floor[rNew][cNew] != '.' {
-					break
-				}
-			} else {
+			if floor[y][x] != '.' {
 				break
 			}
 		}
