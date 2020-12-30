@@ -63,10 +63,12 @@ func parse(input string) []int64 {
 
 const PREAMBLE = 25
 
-func add_contains(set map[int64]struct{}, target int64) bool {
-	for k := range set {
-		if _, ok := set[target-k]; ok {
-			return true
+func add_contains(set []int64, target int64) bool {
+	for _, x := range set {
+		for _, y := range set {
+			if x+y == target {
+				return true
+			}
 		}
 	}
 
@@ -74,20 +76,12 @@ func add_contains(set map[int64]struct{}, target int64) bool {
 }
 
 func part1(nums []int64) int64 {
-	seen := make(map[int64]struct{})
-	for i := 0; i < PREAMBLE; i++ {
-		seen[nums[i]] = util.Empty
-	}
-
 	for i := PREAMBLE; i < len(nums); i++ {
 		target := nums[i]
 
-		if !add_contains(seen, target) {
+		if !add_contains(nums[(i-25):i], target) {
 			return target
 		}
-
-		delete(seen, nums[i-PREAMBLE])
-		seen[target] = util.Empty
 	}
 
 	return -1
