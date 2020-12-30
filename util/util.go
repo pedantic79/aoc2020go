@@ -56,3 +56,11 @@ type AoCResult struct {
 func (r AoCResult) String() string {
 	return fmt.Sprintf("Day %02d - Part %d: %v\n\tParser: %v\n\tRunner: %v\n\n", r.Day, r.Part, r.Value, r.ParseTime, r.RunTime)
 }
+
+func IntAbs(i int) int {
+	if i < 0 {
+		return -1 * i
+	}
+
+	return i
+}
