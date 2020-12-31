@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math/big"
 	"os"
 	"strings"
 	"time"
@@ -63,4 +64,25 @@ func IntAbs(i int) int {
 	}
 
 	return i
+}
+
+func ModInv(a, m int64) int64 {
+	return new(big.Int).ModInverse(big.NewInt(a), big.NewInt(m)).Int64()
+}
+
+func ChineseRemainderTheorem(offsets, modulos []int64) int64 {
+	product := int64(1)
+	for _, m := range modulos {
+		product *= m
+	}
+
+	total := int64(0)
+	for i, off := range offsets {
+		m := product / modulos[i]
+		y := ModInv(m, modulos[i])
+
+		total += off * m * y
+	}
+
+	return total % product
 }
