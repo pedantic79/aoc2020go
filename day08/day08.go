@@ -67,16 +67,16 @@ func parse(input string) []Instruction {
 }
 
 func run(instructions []Instruction) (int, bool) {
-	insCache := make(map[int]struct{})
+	insCache := make(util.Set)
 	acc := 0
 
 	for pc := 0; pc < len(instructions); pc++ {
 		// log.Printf("pc: %v acc: %v ins: %v cache: %v", pc, acc, instructions[pc], insCache)
-		if _, ok := insCache[pc]; ok {
+		if insCache.Contains(pc) {
 			return acc, false
 		}
 
-		insCache[pc] = util.Empty
+		insCache.Add(pc)
 		ins := instructions[pc]
 
 		switch ins.ins {

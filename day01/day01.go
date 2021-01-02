@@ -68,15 +68,15 @@ func parse(input string) []int {
 }
 
 func part1(input []int) int {
-	seen := make(map[int]struct{})
+	seen := make(util.Set)
 
 	for _, i := range input {
 		target := 2020 - i
 
-		if _, ok := seen[target]; ok {
+		if seen.Contains(target) {
 			return target * i
 		}
-		seen[i] = util.Empty
+		seen.Add(i)
 	}
 
 	return -1

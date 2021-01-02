@@ -11,7 +11,6 @@ import (
 	"time"
 )
 
-var Empty struct{}
 var Day = flag.Uint("d", 0, "Day to run.")
 var Part = flag.Uint("p", 3, "Part to run.")
 var Results []func() AoCResult

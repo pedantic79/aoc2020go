@@ -81,11 +81,11 @@ func (info Info) checkTicket(ticket []int64) (bool, int64) {
 	return true, 0
 }
 
-func (info Info) ticketPossibles(validTickets [][]int64) []map[int]struct{} {
-	possiblities := make([]map[int]struct{}, len(info.yours))
+func (info Info) ticketPossibles(validTickets [][]int64) []util.Set {
+	possiblities := make([]util.Set, len(info.yours))
 
 	for i := 0; i < len(possiblities); i++ {
-		set := make(map[int]struct{})
+		set := make(util.Set)
 
 		for r, rule := range info.rules {
 			valid := true
@@ -97,7 +97,7 @@ func (info Info) ticketPossibles(validTickets [][]int64) []map[int]struct{} {
 			}
 
 			if valid {
-				set[r] = util.Empty
+				set.Add(r)
 			}
 		}
 
@@ -169,11 +169,11 @@ func part1(info Info) int64 {
 	return total
 }
 
-func findSingleton(poss []map[int]struct{}) (int, int) {
+func findSingleton(poss []util.Set) (int, int) {
 	for ticketIndex, set := range poss {
 		if len(set) == 1 {
 			for ruleIndex := range set {
-				return ticketIndex, ruleIndex
+				return ticketIndex, ruleIndex.(int)
 			}
 		}
 	}
