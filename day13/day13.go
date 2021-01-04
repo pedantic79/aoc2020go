@@ -1,7 +1,6 @@
 package day13
 
 import (
-	"strconv"
 	"strings"
 	"time"
 
@@ -58,7 +57,7 @@ type Data struct {
 func parse(input string) Data {
 	lines := strings.Split(input, "\n")
 
-	start, _ := strconv.ParseInt(lines[0], 10, 64)
+	start := util.ParseInt(lines[0], 10, 64)
 
 	ids := []int64{}
 	offsets := []int64{}
@@ -68,7 +67,7 @@ func parse(input string) Data {
 			continue
 		}
 
-		n, _ := strconv.ParseInt(id, 10, 64)
+		n := util.ParseInt(id, 10, 64)
 
 		ids = append(ids, n)
 		offsets = append(offsets, n-int64(idx))

@@ -1,7 +1,6 @@
 package day07
 
 import (
-	"strconv"
 	"strings"
 	"time"
 
@@ -70,7 +69,7 @@ func parse(input string) map[string][]BagCount {
 			contents = strings.TrimSuffix(contents, " bags")
 			contents = strings.TrimSuffix(contents, " bag")
 
-			count, _ := strconv.Atoi(contents[:1])
+			count := util.Atoi(contents[:1])
 			bags[key] = append(bags[key], BagCount{color: contents[2:], number: count})
 		}
 	}

@@ -1,7 +1,6 @@
 package day14
 
 import (
-	"strconv"
 	"strings"
 	"time"
 
@@ -90,8 +89,8 @@ func parse(input string) []ProgramSegment {
 				continue
 			}
 			memSplit := strings.Split(memOp, "] = ")
-			l, _ := strconv.ParseUint(memSplit[0][4:], 10, 64)
-			r, _ := strconv.ParseUint(memSplit[1], 10, 64)
+			l := util.ParseUint(memSplit[0][4:], 10, 64)
+			r := util.ParseUint(memSplit[1], 10, 64)
 
 			operation = append(operation, MemoryOp{
 				location: l,

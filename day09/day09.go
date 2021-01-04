@@ -2,7 +2,6 @@ package day09
 
 import (
 	"sort"
-	"strconv"
 	"strings"
 	"time"
 
@@ -54,8 +53,7 @@ func parse(input string) []int {
 	nums := []int{}
 
 	for _, line := range strings.Split(input, "\n") {
-		num, _ := strconv.Atoi(line)
-		nums = append(nums, num)
+		nums = append(nums, util.Atoi(line))
 	}
 
 	return nums

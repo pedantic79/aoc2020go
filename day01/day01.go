@@ -1,9 +1,7 @@
 package day01
 
 import (
-	"log"
 	"sort"
-	"strconv"
 	"strings"
 	"time"
 
@@ -56,12 +54,7 @@ func parse(input string) []int {
 
 	var output []int
 	for _, line := range split {
-		n, err := strconv.Atoi(line)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		output = append(output, n)
+		output = append(output, util.Atoi(line))
 	}
 
 	return output

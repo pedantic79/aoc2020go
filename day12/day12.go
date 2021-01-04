@@ -2,7 +2,6 @@ package day12
 
 import (
 	"log"
-	"strconv"
 	"strings"
 	"time"
 
@@ -151,7 +150,7 @@ func parse(input string) []Directions {
 	directions := []Directions{}
 
 	for _, line := range strings.Split(input, "\n") {
-		num, _ := strconv.Atoi(line[1:])
+		num := util.Atoi(line[1:])
 
 		directions = append(directions, Directions{
 			dir: line[0],

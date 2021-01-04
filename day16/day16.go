@@ -1,7 +1,6 @@
 package day16
 
 import (
-	"strconv"
 	"strings"
 	"time"
 
@@ -112,13 +111,11 @@ func parseRule(line string) DoubleRange {
 	colon := strings.Split(line, ": ")
 	numGroups := strings.Split(colon[1], " or ")
 	for i, num := range strings.Split(numGroups[0], "-") {
-		n, _ := strconv.ParseInt(num, 10, 64)
-		dr[i] = n
+		dr[i] = util.ParseInt(num, 10, 64)
 	}
 
 	for i, num := range strings.Split(numGroups[1], "-") {
-		n, _ := strconv.ParseInt(num, 10, 64)
-		dr[i+2] = n
+		dr[i+2] = util.ParseInt(num, 10, 64)
 	}
 
 	return DoubleRange{dr}
@@ -128,8 +125,7 @@ func parseTicket(line string) []int64 {
 	ticket := []int64{}
 
 	for _, num := range strings.Split(line, ",") {
-		n, _ := strconv.ParseInt(num, 10, 64)
-		ticket = append(ticket, n)
+		ticket = append(ticket, util.ParseInt(num, 10, 64))
 	}
 
 	return ticket

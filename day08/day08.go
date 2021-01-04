@@ -2,7 +2,6 @@ package day08
 
 import (
 	"log"
-	"strconv"
 	"strings"
 	"time"
 
@@ -59,7 +58,7 @@ func parse(input string) []Instruction {
 	ins := []Instruction{}
 
 	for _, line := range strings.Split(input, "\n") {
-		num, _ := strconv.Atoi(line[4:])
+		num := util.Atoi(line[4:])
 		ins = append(ins, Instruction{ins: line[:3], num: num})
 	}
 

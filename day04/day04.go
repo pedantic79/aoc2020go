@@ -88,17 +88,17 @@ func validatePart2(passport map[string]string) bool {
 
 		switch key {
 		case "byr":
-			n, _ := strconv.Atoi(value)
+			n := util.Atoi(value)
 			if !(1920 <= n && n <= 2002) {
 				return false
 			}
 		case "iyr":
-			n, _ := strconv.Atoi(value)
+			n := util.Atoi(value)
 			if !(2010 <= n && n <= 2020) {
 				return false
 			}
 		case "eyr":
-			n, _ := strconv.Atoi(value)
+			n := util.Atoi(value)
 			if !(2020 <= n && n <= 2030) {
 				return false
 			}

@@ -3,7 +3,6 @@ package day10
 import (
 	"log"
 	"sort"
-	"strconv"
 	"strings"
 	"time"
 
@@ -54,8 +53,7 @@ func RunPart2() util.AoCResult {
 func parse(input string) []int {
 	nums := []int{0}
 	for _, line := range strings.Split(input, "\n") {
-		num, _ := strconv.Atoi(line)
-		nums = append(nums, num)
+		nums = append(nums, util.Atoi(line))
 	}
 
 	sort.Ints(nums)

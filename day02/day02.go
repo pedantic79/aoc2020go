@@ -1,7 +1,6 @@
 package day02
 
 import (
-	"strconv"
 	"strings"
 	"time"
 
@@ -79,10 +78,7 @@ func parse(input string) []PasswordRule {
 		fields := strings.Split(line, " ")
 		dash := strings.Split(fields[0], "-")
 
-		left, _ := strconv.Atoi(dash[0])
-		right, _ := strconv.Atoi(dash[1])
-		bounds := [2]int{left, right}
-
+		bounds := [2]int{util.Atoi(dash[0]), util.Atoi(dash[1])}
 		letter := fields[1][0]
 
 		output = append(output, PasswordRule{

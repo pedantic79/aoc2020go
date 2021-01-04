@@ -1,7 +1,6 @@
 package day15
 
 import (
-	"strconv"
 	"strings"
 	"time"
 
@@ -52,7 +51,7 @@ func RunPart2() util.AoCResult {
 func parse(input string) []int {
 	nums := []int{}
 	for _, n := range strings.Split(input, ",") {
-		num, _ := strconv.Atoi(n)
+		num := util.Atoi(n)
 		nums = append(nums, num)
 	}
 
