@@ -3,6 +3,10 @@
 VANITY="github.com/pedantic79/aoc2020go"
 NUM=$(printf "%02d" "$1")
 
+if [ -d "day$NUM" ]; then
+    echo "day$NUM already exists"
+    exit 1
+fi
 cp -r template "day$NUM"
 mv "day$NUM/dayNN.go" "day$NUM/day$NUM.go"
 mv "day$NUM/dayNN_test.go" "day$NUM/day${NUM}_test.go"
