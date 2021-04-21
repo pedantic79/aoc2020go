@@ -85,3 +85,10 @@ func ChineseRemainderTheorem(offsets, modulos []int64) int64 {
 
 	return total % product
 }
+
+func Bool2Int(b bool) int {
+	if b {
+		return 1
+	}
+	return 0
+}
