@@ -26,6 +26,7 @@ import (
 	_ "github.com/pedantic79/aoc2020go/day18"
 	_ "github.com/pedantic79/aoc2020go/day19"
 	_ "github.com/pedantic79/aoc2020go/day20"
+	_ "github.com/pedantic79/aoc2020go/day21"
 )
 
 func main() {

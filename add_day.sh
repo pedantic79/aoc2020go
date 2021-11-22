@@ -5,7 +5,7 @@ NUM=$(printf "%02d" "$1")
 CREDS="$HOME/Library/Preferences/com.github.gobanos.cargo-aoc/credentials.toml"
 
 if [ -e "$CREDS" ]; then
-    COOKIE=$(awk -F= '/session/ {print $2}' "$CREDS" | tr -d '\" ')
+    COOKIE=$(yj -t < $CREDS | jq '.session' -r)
 else
     COOKIE=""
 fi
