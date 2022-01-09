@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/pedantic79/aoc2020go/util"
+	"github.com/pedantic79/aoc2020go/util/set"
 )
 
 var day uint = 8
@@ -66,7 +67,7 @@ func parse(input string) []Instruction {
 }
 
 func run(instructions []Instruction) (int, bool) {
-	insCache := make(util.Set)
+	insCache := make(set.Set[int])
 	acc := 0
 
 	for pc := 0; pc < len(instructions); pc++ {

@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/pedantic79/aoc2020go/util"
+	"github.com/pedantic79/aoc2020go/util/set"
 )
 
 var day uint = 16
@@ -80,11 +81,11 @@ func (info Info) checkTicket(ticket []int64) (bool, int64) {
 	return true, 0
 }
 
-func (info Info) ticketPossibles(validTickets [][]int64) []util.Set {
-	possiblities := make([]util.Set, len(info.yours))
+func (info Info) ticketPossibles(validTickets [][]int64) []set.Set[int] {
+	possiblities := make([]set.Set[int], len(info.yours))
 
 	for i := 0; i < len(possiblities); i++ {
-		set := make(util.Set)
+		set := make(set.Set[int])
 
 		for r, rule := range info.rules {
 			valid := true
@@ -165,11 +166,11 @@ func part1(info Info) int64 {
 	return total
 }
 
-func findSingleton(poss []util.Set) (int, int) {
+func findSingleton(poss []set.Set[int]) (int, int) {
 	for ticketIndex, set := range poss {
 		if len(set) == 1 {
 			for ruleIndex := range set {
-				return ticketIndex, ruleIndex.(int)
+				return ticketIndex, ruleIndex
 			}
 		}
 	}

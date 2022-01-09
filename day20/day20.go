@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/pedantic79/aoc2020go/util"
+	"github.com/pedantic79/aoc2020go/util/set"
 )
 
 var day uint = 20
@@ -68,6 +69,40 @@ func (t Tile) String() string {
 	}
 
 	return sb.String()
+}
+
+func (t *Tile) Rotate() {
+	l := len(t.data)
+	for i := 0; i < l/2; i++ {
+		for j := i; j < l-i-1; j++ {
+			temp := t.data[i][j]
+			t.data[i][j] = t.data[l-1-j][i]
+			t.data[l-1-j][i] = t.data[l-1-i][l-1-j]
+			t.data[l-1-i][l-1-j] = t.data[j][l-1-i]
+			t.data[j][l-1-i] = temp
+		}
+	}
+}
+
+func (t Tile) Clone() Tile {
+	ret := Tile{id: t.id}
+	for r := 0; r < 10; r++ {
+		copy(ret.data[r][:], t.data[r][:])
+	}
+	return ret
+}
+
+func reverse(numbers *[10]bool) {
+	for i := 0; i < len(*numbers)/2; i++ {
+		j := len(*numbers) - i - 1
+		numbers[i], numbers[j] = numbers[j], numbers[i]
+	}
+}
+
+func (t *Tile) Flip() {
+	for r := range t.data {
+		reverse(&t.data[r])
+	}
 }
 
 func CalculateEdgeValue(edge []bool) (int, int) {
@@ -176,18 +211,29 @@ func part1(tiles TileMap) int {
 	return prod
 }
 
-func part2(tiles TileMap) int {
-	cache, corners := calculateEdges(tiles)
-	corner := tiles[corners[0]]
-	edges := corner.edges()
+type Grid struct {
+	grid    [20][20]*Tile
+	visited set.Set[int]
+}
 
-	for _, edge := range edges[:4] {
-		fmt.Printf("%010b -> len(%v)\n", edge, len(cache[edge]))
+func (g *Grid) search(r, c int, cache []Tile) {
+
+}
+
+func part2(tiles TileMap) int {
+	cache := []Tile{}
+	for _, tile := range tiles {
+		for j := 0; j < 2; j++ {
+			for i := 0; i < 4; i++ {
+				tile.Rotate()
+				cache = append(cache, tile.Clone())
+			}
+			tile.Flip()
+		}
 	}
-	// Rotate corner until properly oriented
-	// fill in corner
-	// fill rest of row
-	// fill in new row
+
+	grid := Grid{visited: make(set.Set[int])}
+	grid.search(0, 0, cache)
 
 	return -1
 }

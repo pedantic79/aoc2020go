@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/pedantic79/aoc2020go/util"
+	"github.com/pedantic79/aoc2020go/util/set"
 )
 
 var day uint = 22
@@ -99,14 +100,14 @@ func part1(players [2][]int) int {
 }
 
 func solve2(player1, player2 *[]int) int {
-	seen := make(map[string]interface{})
+	seen := make(set.Set[string])
 
 	for len(*player1) > 0 && len(*player2) > 0 {
 		s := fmt.Sprint(*player1)
-		if _, ok := seen[s]; ok {
+		if seen.Contains(s) {
 			return 1
 		} else {
-			seen[s] = util.Empty
+			seen.Add(s)
 		}
 
 		var p1, p2 int

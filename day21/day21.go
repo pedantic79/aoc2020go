@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/pedantic79/aoc2020go/util"
+	"github.com/pedantic79/aoc2020go/util/set"
 )
 
 var day uint = 21
@@ -19,8 +20,8 @@ type Food struct {
 	Allergens   []Allergy
 }
 
-type AllergySet map[Allergy]struct{}
-type IngredientSet map[Ingredient]struct{}
+type AllergySet set.Set[Allergy]
+type IngredientSet set.Set[Ingredient]
 
 func init() {
 	if util.CheckDayAndPart(day, 1) {
@@ -100,7 +101,8 @@ func solve(foods []Food) (map[Ingredient]AllergySet, map[Ingredient]int) {
 	for _, food := range foods {
 		for _, all := range food.Allergens {
 			for k := range possibilities {
-				possibilities[k][all] = util.Empty
+				entry := set.Set[string](possibilities[k])
+				entry.Add(all)
 			}
 		}
 	}

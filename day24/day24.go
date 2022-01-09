@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/pedantic79/aoc2020go/util"
+	"github.com/pedantic79/aoc2020go/util/set"
 )
 
 var day uint = 24
@@ -101,27 +102,28 @@ func newHexCoord(input string) HexCoord {
 	return HexCoord{x, y}
 }
 
-func parse(input string) map[HexCoord]interface{} {
+func parse(input string) set.Set[HexCoord] {
 	hex := make(map[HexCoord]int)
 	for _, line := range strings.Split(input, "\n") {
 		hex[newHexCoord(line)]++
 	}
 
-	keys := make(map[HexCoord]interface{})
+	keys := make(set.Set[HexCoord])
 	for coord, count := range hex {
 		if count%2 == 1 {
-			keys[coord] = util.Empty
+			keys.Add(coord)
+
 		}
 	}
 
 	return keys
 }
 
-func part1(hex map[HexCoord]interface{}) int {
+func part1(hex set.Set[HexCoord]) int {
 	return len(hex)
 }
 
-func tick(hex map[HexCoord]interface{}) map[HexCoord]interface{} {
+func tick(hex set.Set[HexCoord]) set.Set[HexCoord] {
 	counts := make(map[HexCoord]int, len(hex)*6)
 
 	for tile := range hex {
@@ -130,18 +132,18 @@ func tick(hex map[HexCoord]interface{}) map[HexCoord]interface{} {
 		}
 	}
 
-	keys := make(map[HexCoord]interface{})
+	keys := make(set.Set[HexCoord])
 	for coord, count := range counts {
 		_, contains := hex[coord]
 		if contains && !(count == 0 || count > 2) || !contains && count == 2 {
-			keys[coord] = util.Empty
+			keys.Add(coord)
 		}
 	}
 
 	return keys
 }
 
-func part2(hex map[HexCoord]interface{}) int {
+func part2(hex set.Set[HexCoord]) int {
 	for i := 0; i < 100; i++ {
 		hex = tick(hex)
 	}

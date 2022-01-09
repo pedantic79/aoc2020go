@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/pedantic79/aoc2020go/util"
+	"github.com/pedantic79/aoc2020go/util/set"
 )
 
 var day uint = 17
@@ -142,15 +143,14 @@ func parse(input string) []Point {
 	return nums
 }
 
-type state map[Coord]struct{}
+type state set.Set[Coord]
 
 func (s *state) add(v Coord) {
-	(*s)[v] = util.Empty
+	(*set.Set[Coord])(s).Add(v)
 }
 
-func (s state) contains(v Coord) bool {
-	_, ok := s[v]
-	return ok
+func (s *state) contains(v Coord) bool {
+	return (*set.Set[Coord])(s).Contains(v)
 }
 
 func (coords state) countNeighbors() map[Coord]int {

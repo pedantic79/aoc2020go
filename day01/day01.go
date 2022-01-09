@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/pedantic79/aoc2020go/util"
+	"github.com/pedantic79/aoc2020go/util/set"
 )
 
 var day uint = 1
@@ -61,7 +62,7 @@ func parse(input string) []int {
 }
 
 func part1(input []int) int {
-	seen := make(util.Set)
+	seen := make(set.Set[int])
 
 	for _, i := range input {
 		target := 2020 - i
