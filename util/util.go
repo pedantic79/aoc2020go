@@ -1,6 +1,7 @@
 package util
 
 import (
+	"constraints"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -57,9 +58,23 @@ func (r AoCResult) String() string {
 	return fmt.Sprintf("Day %02d - Part %d: %v\n\tParser: %v\n\tRunner: %v\n\n", r.Day, r.Part, r.Value, r.ParseTime, r.RunTime)
 }
 
-func IntAbs(i int) int {
+func Timer[T any, R any](day uint, part uint, parse func(string) T, run func(T) R) AoCResult {
+	input := ReadFile(GenerateFileName(day))
+
+	start := time.Now()
+	parsed := parse(input)
+	parseTime := time.Since(start)
+
+	start = time.Now()
+	ans1 := run(parsed)
+	runTime := time.Since(start)
+
+	return AoCResult{Day: day, Part: part, ParseTime: parseTime, RunTime: runTime, Value: ans1}
+}
+
+func IntAbs[I constraints.Integer](i I) I {
 	if i < 0 {
-		return -1 * i
+		return -i
 	}
 
 	return i
@@ -86,7 +101,7 @@ func ChineseRemainderTheorem(offsets, modulos []int64) int64 {
 	return total % product
 }
 
-func Bool2Int(b bool) int {
+func Bool2Int[I constraints.Integer](b bool) I {
 	if b {
 		return 1
 	}

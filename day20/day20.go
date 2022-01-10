@@ -3,14 +3,12 @@ package day20
 import (
 	"fmt"
 	"strings"
-	"time"
 
 	"github.com/pedantic79/aoc2020go/util"
 	"github.com/pedantic79/aoc2020go/util/set"
 )
 
-var day uint = 20
-var fileName string = util.GenerateFileName(day)
+const day uint = 20
 
 func init() {
 	if util.CheckDayAndPart(day, 1) {
@@ -23,31 +21,11 @@ func init() {
 }
 
 func RunPart1() util.AoCResult {
-	input := util.ReadFile(fileName)
-
-	start := time.Now()
-	parsed := parse(input)
-	parseTime := time.Since(start)
-
-	start = time.Now()
-	ans1 := part1(parsed)
-	runTime := time.Since(start)
-
-	return util.AoCResult{Day: day, Part: 1, ParseTime: parseTime, RunTime: runTime, Value: ans1}
+	return util.Timer(day, 1, parse, part1)
 }
 
 func RunPart2() util.AoCResult {
-	input := util.ReadFile(fileName)
-
-	start := time.Now()
-	parsed := parse(input)
-	parseTime := time.Since(start)
-
-	start = time.Now()
-	ans2 := part2(parsed)
-	runTime := time.Since(start)
-
-	return util.AoCResult{Day: day, Part: 2, ParseTime: parseTime, RunTime: runTime, Value: ans2}
+	return util.Timer(day, 2, parse, part2)
 }
 
 type Tile struct {
@@ -110,8 +88,8 @@ func CalculateEdgeValue(edge []bool) (int, int) {
 	backward := 0
 
 	for i := 0; i < len(edge); i++ {
-		forward = forward*2 + util.Bool2Int(edge[i])
-		backward = backward*2 + util.Bool2Int(edge[len(edge)-1-i])
+		forward = forward*2 + util.Bool2Int[int](edge[i])
+		backward = backward*2 + util.Bool2Int[int](edge[len(edge)-1-i])
 	}
 
 	return forward, backward

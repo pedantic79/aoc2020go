@@ -3,14 +3,10 @@ package day21
 import (
 	"sort"
 	"strings"
-	"time"
 
 	"github.com/pedantic79/aoc2020go/util"
 	"github.com/pedantic79/aoc2020go/util/set"
 )
-
-var day uint = 21
-var fileName string = util.GenerateFileName(day)
 
 type Allergy = string
 type Ingredient = string
@@ -23,6 +19,8 @@ type Food struct {
 type AllergySet set.Set[Allergy]
 type IngredientSet set.Set[Ingredient]
 
+const day uint = 21
+
 func init() {
 	if util.CheckDayAndPart(day, 1) {
 		util.Results = append(util.Results, RunPart1)
@@ -34,31 +32,11 @@ func init() {
 }
 
 func RunPart1() util.AoCResult {
-	input := util.ReadFile(fileName)
-
-	start := time.Now()
-	parsed := parse(input)
-	parseTime := time.Since(start)
-
-	start = time.Now()
-	ans1 := part1(parsed)
-	runTime := time.Since(start)
-
-	return util.AoCResult{Day: day, Part: 1, ParseTime: parseTime, RunTime: runTime, Value: ans1}
+	return util.Timer(day, 1, parse, part1)
 }
 
 func RunPart2() util.AoCResult {
-	input := util.ReadFile(fileName)
-
-	start := time.Now()
-	parsed := parse(input)
-	parseTime := time.Since(start)
-
-	start = time.Now()
-	ans2 := part2(parsed)
-	runTime := time.Since(start)
-
-	return util.AoCResult{Day: day, Part: 2, ParseTime: parseTime, RunTime: runTime, Value: ans2}
+	return util.Timer(day, 2, parse, part2)
 }
 
 func parse(input string) []Food {
