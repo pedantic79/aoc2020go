@@ -124,11 +124,11 @@ func parse(input string) []Point {
 type state set.Set[Coord]
 
 func (s *state) add(v Coord) {
-	(*set.Set[Coord])(s).Add(v)
+	set.Add(*s, v)
 }
 
 func (s *state) contains(v Coord) bool {
-	return (*set.Set[Coord])(s).Contains(v)
+	return set.Contains(*s, v)
 }
 
 func (coords state) countNeighbors() map[Coord]int {
@@ -148,13 +148,13 @@ func (coords state) tick() state {
 	neighCount := coords.countNeighbors()
 
 	for coord, count := range neighCount {
-		if coords.contains(coord) {
+		if set.Contains(coords, coord) {
 			// we're including ourselves
 			if count == 3 || count == 4 {
-				newState.add(coord)
+				set.Add(newState, coord)
 			}
 		} else if count == 3 {
-			newState.add(coord)
+			set.Add(newState, coord)
 		}
 	}
 

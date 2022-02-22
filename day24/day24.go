@@ -89,7 +89,7 @@ func parse(input string) set.Set[HexCoord] {
 	keys := make(set.Set[HexCoord])
 	for coord, count := range hex {
 		if count%2 == 1 {
-			keys.Add(coord)
+			set.Add(keys, coord)
 
 		}
 	}
@@ -114,7 +114,7 @@ func tick(hex set.Set[HexCoord]) set.Set[HexCoord] {
 	for coord, count := range counts {
 		_, contains := hex[coord]
 		if contains && !(count == 0 || count > 2) || !contains && count == 2 {
-			keys.Add(coord)
+			set.Add(keys, coord)
 		}
 	}
 

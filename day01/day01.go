@@ -45,10 +45,10 @@ func part1(input []int) int {
 	for _, i := range input {
 		target := 2020 - i
 
-		if seen.Contains(target) {
+		if set.Contains(seen, target) {
 			return target * i
 		}
-		seen.Add(i)
+		set.Add(seen, i)
 	}
 
 	return -1

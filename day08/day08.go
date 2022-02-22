@@ -50,11 +50,11 @@ func run(instructions []Instruction) (int, bool) {
 
 	for pc := 0; pc < len(instructions); pc++ {
 		// log.Printf("pc: %v acc: %v ins: %v cache: %v", pc, acc, instructions[pc], insCache)
-		if insCache.Contains(pc) {
+		if set.Contains(insCache, pc) {
 			return acc, false
 		}
 
-		insCache.Add(pc)
+		set.Add(insCache, pc)
 		ins := instructions[pc]
 
 		switch ins.ins {

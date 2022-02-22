@@ -80,7 +80,7 @@ func solve(foods []Food) (map[Ingredient]AllergySet, map[Ingredient]int) {
 		for _, all := range food.Allergens {
 			for k := range possibilities {
 				entry := set.Set[string](possibilities[k])
-				entry.Add(all)
+				set.Add(entry, all)
 			}
 		}
 	}

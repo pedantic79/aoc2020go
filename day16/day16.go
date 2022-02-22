@@ -63,7 +63,7 @@ func (info Info) ticketPossibles(validTickets [][]int64) []set.Set[int] {
 	possiblities := make([]set.Set[int], len(info.yours))
 
 	for i := 0; i < len(possiblities); i++ {
-		set := make(set.Set[int])
+		s := make(set.Set[int])
 
 		for r, rule := range info.rules {
 			valid := true
@@ -75,11 +75,11 @@ func (info Info) ticketPossibles(validTickets [][]int64) []set.Set[int] {
 			}
 
 			if valid {
-				set.Add(r)
+				set.Add(s, r)
 			}
 		}
 
-		possiblities[i] = set
+		possiblities[i] = s
 	}
 
 	return possiblities

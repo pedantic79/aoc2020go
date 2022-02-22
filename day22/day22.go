@@ -82,10 +82,10 @@ func solve2(player1, player2 *[]int) int {
 
 	for len(*player1) > 0 && len(*player2) > 0 {
 		s := fmt.Sprint(*player1)
-		if seen.Contains(s) {
+		if set.Contains(seen, s) {
 			return 1
 		} else {
-			seen.Add(s)
+			set.Add(seen, s)
 		}
 
 		var p1, p2 int
