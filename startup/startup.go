@@ -5,7 +5,7 @@ package startup
 import (
 	"flag"
 
-	_ "github.com/pedantic79/aoc2020go/util"
+	_ "github.com/pedantic79/aoc2020go/framework"
 )
 
 func init() {

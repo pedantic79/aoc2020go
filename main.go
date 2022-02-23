@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
+	"github.com/pedantic79/aoc2020go/framework"
 	_ "github.com/pedantic79/aoc2020go/startup"
-	"github.com/pedantic79/aoc2020go/util"
 
 	_ "github.com/pedantic79/aoc2020go/day01"
 	_ "github.com/pedantic79/aoc2020go/day02"
@@ -34,9 +34,9 @@ import (
 )
 
 func main() {
-	fmt.Printf("🎄 Advent of Code 2020 - Day %02d\n\n", *util.Day)
+	fmt.Printf("🎄 Advent of Code 2020 - Day %02d\n\n", *framework.Day)
 
-	for _, result := range util.Results {
+	for _, result := range framework.Results {
 		fmt.Printf("%v", result())
 	}
 }
