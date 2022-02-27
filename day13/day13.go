@@ -36,7 +36,7 @@ type Data struct {
 func parse(input string) Data {
 	lines := strings.Split(input, "\n")
 
-	start := util.ParseInt(lines[0], 10, 64)
+	start := util.ParseInteger[int64](lines[0])
 
 	ids := []int64{}
 	offsets := []int64{}
@@ -46,7 +46,7 @@ func parse(input string) Data {
 			continue
 		}
 
-		n := util.ParseInt(id, 10, 64)
+		n := util.ParseInteger[int64](id)
 
 		ids = append(ids, n)
 		offsets = append(offsets, n-int64(idx))

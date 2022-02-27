@@ -90,7 +90,6 @@ func parse(input string) set.Set[HexCoord] {
 	for coord, count := range hex {
 		if count%2 == 1 {
 			set.Add(keys, coord)
-
 		}
 	}
 

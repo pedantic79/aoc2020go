@@ -122,25 +122,19 @@ func validatePart2(passport map[string]string) bool {
 }
 
 func part1(passports []map[string]string) int {
-	total := 0
-
-	for _, passport := range passports {
+	return util.SumFunc(passports, func(passport map[string]string) int {
 		if validatePart1(passport) {
-			total += 1
+			return 1
 		}
-	}
-
-	return total
+		return 0
+	})
 }
 
 func part2(passports []map[string]string) int {
-	total := 0
-
-	for _, passport := range passports {
+	return util.SumFunc(passports, func(passport map[string]string) int {
 		if validatePart2(passport) {
-			total += 1
+			return 1
 		}
-	}
-
-	return total
+		return 0
+	})
 }

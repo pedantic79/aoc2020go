@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/pedantic79/aoc2020go/framework"
+	"github.com/pedantic79/aoc2020go/util"
 )
 
 const day uint = 23
@@ -28,13 +29,9 @@ func RunPart2() framework.AoCResult {
 }
 
 func parse(input string) []int {
-	nums := []int{}
-
-	for _, c := range input {
-		nums = append(nums, int(c-'0'))
-	}
-
-	return nums
+	return util.Map([]rune(input), func(r rune) int {
+		return int(r - '0')
+	})
 }
 
 func solve(ring *[]int, current int, iterations int) {

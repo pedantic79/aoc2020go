@@ -29,20 +29,20 @@ func RunPart2() framework.AoCResult {
 }
 
 type DoubleRange struct {
-	dr [4]int64
+	dr [4]int
 }
 
-func (dr DoubleRange) check(i int64) bool {
+func (dr DoubleRange) check(i int) bool {
 	return (dr.dr[0] <= i && i <= dr.dr[1]) || (dr.dr[2] <= i && i <= dr.dr[3])
 }
 
 type Info struct {
 	rules  []DoubleRange
-	yours  []int64
-	nearby [][]int64
+	yours  []int
+	nearby [][]int
 }
 
-func (info Info) checkTicket(ticket []int64) (bool, int64) {
+func (info Info) checkTicket(ticket []int) (bool, int) {
 	for _, tick := range ticket {
 		found := false
 		for _, rule := range info.rules {
@@ -60,7 +60,7 @@ func (info Info) checkTicket(ticket []int64) (bool, int64) {
 	return true, 0
 }
 
-func (info Info) ticketPossibles(validTickets [][]int64) []set.Set[int] {
+func (info Info) ticketPossibles(validTickets [][]int) []set.Set[int] {
 	possiblities := make([]set.Set[int], len(info.yours))
 
 	for i := 0; i < len(possiblities); i++ {
@@ -87,25 +87,25 @@ func (info Info) ticketPossibles(validTickets [][]int64) []set.Set[int] {
 }
 
 func parseRule(line string) DoubleRange {
-	var dr [4]int64
+	var dr [4]int
 	colon := strings.Split(line, ": ")
 	numGroups := strings.Split(colon[1], " or ")
 	for i, num := range strings.Split(numGroups[0], "-") {
-		dr[i] = util.ParseInt(num, 10, 64)
+		dr[i] = util.ParseInteger[int](num)
 	}
 
 	for i, num := range strings.Split(numGroups[1], "-") {
-		dr[i+2] = util.ParseInt(num, 10, 64)
+		dr[i+2] = util.ParseInteger[int](num)
 	}
 
 	return DoubleRange{dr}
 }
 
-func parseTicket(line string) []int64 {
-	ticket := []int64{}
+func parseTicket(line string) []int {
+	ticket := []int{}
 
 	for _, num := range strings.Split(line, ",") {
-		ticket = append(ticket, util.ParseInt(num, 10, 64))
+		ticket = append(ticket, util.ParseInteger[int](num))
 	}
 
 	return ticket
@@ -120,7 +120,7 @@ func parse(input string) Info {
 	}
 
 	yours := parseTicket(strings.Split(group[1], "\n")[1])
-	nearby := [][]int64{}
+	nearby := [][]int{}
 
 	for _, ticketLine := range strings.Split(group[2], "\n")[1:] {
 		nearby = append(nearby, parseTicket(ticketLine))
@@ -133,8 +133,8 @@ func parse(input string) Info {
 	}
 }
 
-func part1(info Info) int64 {
-	var total int64
+func part1(info Info) int {
+	var total int
 
 	for _, near := range info.nearby {
 		if valid, num := info.checkTicket(near); !valid {
@@ -156,8 +156,8 @@ func findSingleton(poss []set.Set[int]) (int, int) {
 	return -1, -1
 }
 
-func part2(info Info) int64 {
-	validTickets := [][]int64{}
+func part2(info Info) int {
+	validTickets := [][]int{}
 	for _, near := range info.nearby {
 		if valid, _ := info.checkTicket(near); valid {
 			validTickets = append(validTickets, near)
@@ -174,7 +174,7 @@ func part2(info Info) int64 {
 		}
 	}
 
-	total := int64(1)
+	total := 1
 	for _, v := range rulesToField[:6] {
 		total *= info.yours[v]
 	}

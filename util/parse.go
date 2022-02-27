@@ -1,8 +1,11 @@
 package util
 
 import (
+	"fmt"
 	"log"
 	"strconv"
+
+	"golang.org/x/exp/constraints"
 )
 
 func Atoi(s string) int {
@@ -14,22 +17,8 @@ func Atoi(s string) int {
 	return v
 }
 
-func ParseInt(s string, base int, bitSize int) int64 {
-	v, err := strconv.ParseInt(s, base, bitSize)
-
-	if err != nil {
-		log.Panicf("parsing [%v] to int64(base=%v, bitSize=%v) failed", s, base, bitSize)
-	}
-
-	return v
-}
-
-func ParseUint(s string, base int, bitSize int) uint64 {
-	v, err := strconv.ParseUint(s, base, bitSize)
-
-	if err != nil {
-		log.Panicf("parsing [%v] to int64(base=%v, bitSize=%v) failed", s, base, bitSize)
-	}
-
-	return v
+func ParseInteger[I constraints.Integer](s string) I {
+	var i I
+	fmt.Sscan(s, &i)
+	return i
 }

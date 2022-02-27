@@ -5,6 +5,7 @@ import (
 
 	"github.com/pedantic79/aoc2020go/framework"
 	"github.com/pedantic79/aoc2020go/util"
+	"golang.org/x/exp/maps"
 )
 
 const day uint = 14
@@ -68,8 +69,8 @@ func parse(input string) []ProgramSegment {
 				continue
 			}
 			memSplit := strings.Split(memOp, "] = ")
-			l := util.ParseUint(memSplit[0][4:], 10, 64)
-			r := util.ParseUint(memSplit[1], 10, 64)
+			l := util.ParseInteger[uint64](memSplit[0][4:])
+			r := util.ParseInteger[uint64](memSplit[1])
 
 			operation = append(operation, MemoryOp{
 				location: l,
@@ -121,11 +122,7 @@ func part1(segments []ProgramSegment) uint64 {
 		}
 	}
 
-	var total uint64
-	for _, v := range memory {
-		total += v
-	}
-	return total
+	return util.Sum(maps.Values(memory))
 }
 
 func mergeMask(num uint64, mask [36]byte) [36]byte {
@@ -194,9 +191,5 @@ func part2(segments []ProgramSegment) uint64 {
 		}
 	}
 
-	var total uint64
-	for _, v := range memory {
-		total += v
-	}
-	return total
+	return util.Sum(maps.Values(memory))
 }

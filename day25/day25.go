@@ -29,8 +29,8 @@ func RunPart1() framework.AoCResult {
 
 func parse(input string) [2]uint64 {
 	lines := strings.Split(input, "\n")
-	a := util.ParseUint(lines[0], 10, 64)
-	b := util.ParseUint(lines[1], 10, 64)
+	a := util.ParseInteger[uint64](lines[0])
+	b := util.ParseInteger[uint64](lines[1])
 
 	return [2]uint64{a, b}
 }

@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"github.com/pedantic79/aoc2020go/framework"
+	"github.com/pedantic79/aoc2020go/util"
 )
 
 const day uint = 6
@@ -51,13 +52,7 @@ func parse(input string) []CustomsGroup {
 }
 
 func part1(group []CustomsGroup) int {
-	total := 0
-
-	for _, set := range group {
-		total += len(set.answers)
-	}
-
-	return total
+	return util.SumFunc(group, func(s CustomsGroup) int { return len(s.answers) })
 }
 
 func part2(group []CustomsGroup) int {

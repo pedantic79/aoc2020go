@@ -35,6 +35,36 @@ func ChineseRemainderTheorem(offsets, modulos []int64) int64 {
 	return total % product
 }
 
+func Sum[N constraints.Integer](s []N) N {
+	var total N
+
+	for _, n := range s {
+		total += n
+	}
+
+	return total
+}
+
+func SumFunc[T constraints.Integer, N any](s []N, fn func(N) T) T {
+	var total T
+
+	for _, n := range s {
+		total += fn(n)
+	}
+
+	return total
+}
+
+func Map[T, U any](s []T, fn func(T) U) []U {
+	ret := make([]U, 0, len(s))
+
+	for _, v := range s {
+		ret = append(ret, fn(v))
+	}
+
+	return ret
+}
+
 func Bool2Int[I constraints.Integer](b bool) I {
 	if b {
 		return 1
