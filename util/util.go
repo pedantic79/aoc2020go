@@ -14,6 +14,17 @@ func IntAbs[I constraints.Integer](i I) I {
 	return i
 }
 
+func IntPow[I constraints.Integer](n, m I) I {
+    if m == 0 {
+        return 1
+    }
+    result := n
+    for i := I(2); i <= m; i++ {
+        result *= n
+    }
+    return result
+}
+
 func ModInv(a, m int64) int64 {
 	return new(big.Int).ModInverse(big.NewInt(a), big.NewInt(m)).Int64()
 }

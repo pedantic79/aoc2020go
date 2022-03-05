@@ -32,7 +32,8 @@ type Point struct {
 }
 
 type Coord interface {
-	neighors() []Coord
+	comparable
+	neighors() []interface{}
 }
 
 type Coord3 [3]int
@@ -45,10 +46,10 @@ func NewCoord3(p Point) Coord3 {
 	return coord
 }
 
-func (c3 Coord3) neighors() []Coord {
-	// 27 = 3**3
-	stack := make([]Coord, 0, 27)
-	tempS := make([]Coord, 0, 27)
+func (c3 Coord3) neighors() []interface{} {
+	// 27 = 3 * *3
+	stack := make([]interface{}, 0, 27)
+	tempS := make([]interface{}, 0, 27)
 
 	stack = append(stack, c3)
 	for i := 0; i < len(c3); i++ {
@@ -81,10 +82,10 @@ func NewCoord4(p Point) Coord4 {
 	return coord
 }
 
-func (c4 Coord4) neighors() []Coord {
+func (c4 Coord4) neighors() []interface{} {
 	// 81 = 3**4
-	stack := make([]Coord, 0, 81)
-	tempS := make([]Coord, 0, 81)
+	stack := make([]interface{}, 0, 81)
+	tempS := make([]interface{}, 0, 81)
 
 	stack = append(stack, c4)
 	for i := 0; i < len(c4); i++ {
@@ -121,30 +122,22 @@ func parse(input string) []Point {
 	return nums
 }
 
-type state set.Set[Coord]
+type state[T Coord] set.Set[T]
 
-func (s *state) add(v Coord) {
-	set.Add(*s, v)
-}
-
-func (s *state) contains(v Coord) bool {
-	return set.Contains(*s, v)
-}
-
-func (coords state) countNeighbors() map[Coord]int {
-	count := make(map[Coord]int)
+func (coords state[T]) countNeighbors() map[T]int {
+	count := make(map[T]int)
 
 	for coord := range coords {
 		for _, neigh := range coord.neighors() {
-			count[neigh]++
+			count[neigh.(T)]++
 		}
 	}
 
 	return count
 }
 
-func (coords state) tick() state {
-	newState := make(state)
+func (coords state[T]) tick() state[T] {
+	newState := make(state[T])
 	neighCount := coords.countNeighbors()
 
 	for coord, count := range neighCount {
@@ -162,10 +155,10 @@ func (coords state) tick() state {
 }
 
 func part1(points []Point) int {
-	c3s := make(state)
+	c3s := make(state[Coord3])
 
 	for _, point := range points {
-		c3s.add(NewCoord3(point))
+		set.Add(c3s, NewCoord3(point))
 	}
 
 	for i := 0; i < 6; i++ {
@@ -176,10 +169,10 @@ func part1(points []Point) int {
 }
 
 func part2(points []Point) int {
-	c4s := make(state)
+	c4s := make(state[Coord4])
 
 	for _, point := range points {
-		c4s.add(NewCoord4(point))
+		set.Add(c4s, NewCoord4(point))
 	}
 
 	for i := 0; i < 6; i++ {
