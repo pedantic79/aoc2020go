@@ -31,9 +31,11 @@ type Point struct {
 	x, y int
 }
 
-type Coord interface {
+type Neighborable interface {
 	comparable
-	neighors() []interface{}
+	neighborSize() int
+	dim() int
+	add(int, int) interface{}
 }
 
 type Coord3 [3]int
@@ -46,30 +48,17 @@ func NewCoord3(p Point) Coord3 {
 	return coord
 }
 
-func (c3 Coord3) neighors() []interface{} {
-	// 27 = 3 * *3
-	stack := make([]interface{}, 0, 27)
-	tempS := make([]interface{}, 0, 27)
+func (c3 Coord3) neighborSize() int {
+	return 27
+}
 
-	stack = append(stack, c3)
-	for i := 0; i < len(c3); i++ {
-		for len(stack) > 0 {
-			// pop stack contents
-			v := stack[len(stack)-1]
-			stack = stack[:len(stack)-1]
+func (c3 Coord3) dim() int {
+	return 3
+}
 
-			for _, n := range []int{-1, 0, 1} {
-				newV := v.(Coord3)
-				newV[i] += n
-				tempS = append(tempS, Coord3(newV))
-			}
-		}
-		// copy contents to stack, and clear tempS without deallocating
-		stack = append(stack, tempS...)
-		tempS = tempS[:0]
-	}
-
-	return stack
+func (c3 Coord3) add(index, n int) interface{} {
+	c3[index] += n
+	return c3
 }
 
 type Coord4 [4]int
@@ -82,24 +71,34 @@ func NewCoord4(p Point) Coord4 {
 	return coord
 }
 
-func (c4 Coord4) neighors() []interface{} {
-	// 81 = 3**4
-	stack := make([]interface{}, 0, 81)
-	tempS := make([]interface{}, 0, 81)
+func (c4 Coord4) neighborSize() int {
+	return 81
+}
 
-	stack = append(stack, c4)
-	for i := 0; i < len(c4); i++ {
+func (c4 Coord4) dim() int {
+	return 4
+}
+
+func (c4 Coord4) add(index, n int) interface{} {
+	c4[index] += n
+	return c4
+}
+
+func neighbors[N Neighborable](c N) []N {
+	stack := make([]N, 0, c.neighborSize())
+	tempS := make([]N, 0, c.neighborSize())
+
+	stack = append(stack, c)
+	for i := 0; i < c.dim(); i++ {
 		for len(stack) > 0 {
-			// pop stack contents
 			v := stack[len(stack)-1]
 			stack = stack[:len(stack)-1]
 
 			for _, n := range []int{-1, 0, 1} {
-				newV := v.(Coord4)
-				newV[i] += n
-				tempS = append(tempS, Coord4(newV))
+				tempS = append(tempS, v.add(i, n).(N))
 			}
 		}
+
 		// copy contents to stack, and clear tempS without deallocating
 		stack = append(stack, tempS...)
 		tempS = tempS[:0]
@@ -122,23 +121,21 @@ func parse(input string) []Point {
 	return nums
 }
 
-type state[T Coord] set.Set[T]
-
-func (coords state[T]) countNeighbors() map[T]int {
+func countNeighbors[T Neighborable](coords set.Set[T]) map[T]int {
 	count := make(map[T]int)
 
 	for coord := range coords {
-		for _, neigh := range coord.neighors() {
-			count[neigh.(T)]++
+		for _, neigh := range neighbors(coord) {
+			count[neigh]++
 		}
 	}
 
 	return count
 }
 
-func (coords state[T]) tick() state[T] {
-	newState := make(state[T])
-	neighCount := coords.countNeighbors()
+func tick[T Neighborable](coords set.Set[T]) set.Set[T] {
+	newState := set.New[T]()
+	neighCount := countNeighbors(coords)
 
 	for coord, count := range neighCount {
 		if set.Contains(coords, coord) {
@@ -154,30 +151,24 @@ func (coords state[T]) tick() state[T] {
 	return newState
 }
 
-func part1(points []Point) int {
-	c3s := make(state[Coord3])
+func solve[T Neighborable](points []Point, new func(Point) T) int {
+	cs := set.New[T]()
 
 	for _, point := range points {
-		set.Add(c3s, NewCoord3(point))
+		set.Add(cs, new(point))
 	}
 
 	for i := 0; i < 6; i++ {
-		c3s = c3s.tick()
+		cs = tick(cs)
 	}
 
-	return len(c3s)
+	return len(cs)
+}
+
+func part1(points []Point) int {
+	return solve(points, NewCoord3)
 }
 
 func part2(points []Point) int {
-	c4s := make(state[Coord4])
-
-	for _, point := range points {
-		set.Add(c4s, NewCoord4(point))
-	}
-
-	for i := 0; i < 6; i++ {
-		c4s = c4s.tick()
-	}
-
-	return len(c4s)
+	return solve(points, NewCoord4)
 }
