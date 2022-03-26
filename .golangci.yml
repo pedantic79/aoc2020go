@@ -1,0 +1,25 @@
+linters:
+  enable:
+    - deadcode
+    - errcheck
+    - ineffassign
+    - structcheck
+    - typecheck
+    - varcheck
+  disable:
+    - bodyclose
+    - contextcheck
+    - gocritic # Orange
+    - gosimple
+    - govet # Orange
+    - nilerr
+    - noctx
+    - rowserrcheck
+    - sqlclosecheck
+    - staticcheck
+    - staticcheck
+    - stylecheck
+    - tparallel
+    - unparam
+    - unused
+    - wastedassign
